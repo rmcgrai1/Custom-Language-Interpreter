@@ -1,0 +1,228 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="main.css">
+	</head>
+	<body>
+		<div class="header">
+			Ryan McGrail - Interactive PML Javascript Interpreter - 2/25/16
+		</div>
+		<table id="mainTable" style="table-layout:fixed;width:100%;height:95%;">
+			<tr>
+				<td style="width:20%;height:100%;">
+					<div class="side">
+						<h2>PML</h2>
+						Welcome to my simple PML Javascript interpreter! PML is a simple, unfinished programming language I wrote for fun in order to allow users to create custom content for the games I make.<br>
+						
+						<h3>Operators</h3>
+						<ul>
+							<li>Accessing Variables: $</li>
+							<li>Accessing Scripts: #</li>
+							<li>Creating New Scripts: ##</li>
+							<li>Creating Strings: "..."</li>
+							<li>Comments:<br>
+							//, /* ... */:</li>
+							<li>Numerical Operations:<br>
+							+, -, *, /, ^, %, ==, !=, <, <=, >, >=</li>
+							<li>Additional Variable Operations:<br>
+							+=, -=, *=, /=, ^=, %=</li>
+							<li>String Operations:<br>
+							+, +=</li>
+							<li>Binary Operations<br>
+							&&, ||, !</li>
+						</ul>
+						
+						<h3>Variables</h3>
+						There are three types of variables implemented so far:
+							<ol>
+								<li>Numbers (floats)</li>
+								<li>Strings</li>
+								<li>Booleans</li>
+							</ol>
+							
+						Variables can be accessed with the $ symbol, such as $varName. They are created when they are first referenced, and exist solely in the scope of the function they are declared in--they will only fall out of scope after leaving their enclosing function. No type checking is performed during operations involving variables, so be careful!
+						
+						
+						<h3>If/Else Statements</h3>
+						If/else statements work just as expected in most programming languages:<br>
+							<pre>
+if(boolean) {
+	...
+}
+else if(boolean) {
+	...
+}
+else {
+	...
+}
+							</pre>
+						Brackets are optional if only a single statement will be within an if or else block.
+						
+						<h3>Loops</h3>
+						
+						At the moment, only while loops are supported. They can be used with the following syntax:
+<pre>
+while(boolean) {
+	...
+}
+</pre>
+						Brackets are not required if only one statement is used.
+						
+						<h3>Scripts</h3>
+						Scripts can be called with the following syntax:
+<pre>
+#scriptName(val1, ... , valN);
+</pre>
+						They can be created with the following syntax:
+<pre>
+##newScript($argName1, ... , $argNameN) {
+	...
+}
+</pre>
+						Due to how scripts are called "under the hood", they can be used before being defined. However, unlike other languages, scripts cannot be defined inside other scripts!<br>
+						Recursion is supported, but no actions are taken to prevent infinite loops--be careful not to crash your browser!
+
+						<h3>Built-in Library</h3>
+						So far, PML has the following scripts built-in:
+						<ul>
+							<li>#println(value)</li>
+							<li>#print(value)</li>
+							<li>#clear()</li>
+							<li>#sqrt()</li>
+							<li>#sin(value)</li>
+							<li>#cos(value)</li>
+							<li>#tan(value)</li>
+							<li>#asin(value)</li>
+							<li>#acos(value)</li>
+							<li>#atan(value)</li>
+						</ul>
+						
+						<h3>Notes</h3>
+						The allocation of variables and memory is not yet as efficient as it could be, so intense iteration/recursion is not advised.
+					</div>
+				</td>
+				<td>
+					<table width=100% height=100% border=1px>
+						<tr>
+							<td id="inputTD" width=100% height=70%>
+								<textarea placeholder="Enter code here." id="input" wrap="off">
+// Try this code by clicking the "Run Code" button below!
+#clear();
+
+$fibVar = 10;
+$factVar = 19;
+
+if(!FALSE)
+	#println("TRUE/FALSE are constants? " + TRUE);
+if((TRUE && $fibVar == 10) || $factVar < 0)
+	#println("So is PI: " + PI + "!");
+
+
+/****** Declaring functions is simple! ******/
+
+##min($x, $y) {
+	if($x < $y)
+		return $x;
+	else
+		return $y;
+}
+##max($x, $y) {
+	if($x > $y)
+		return $x;
+	else
+		return $y;
+}
+
+##fract($x) {
+	return $x % 1;
+}
+
+##ceil($x) {
+	return #floor($x)+1;
+}
+##floor($x) {
+	$v = $x - #fract($x);
+	if($x > 0)
+		return $v;
+	else
+		return $v-1;
+}
+
+##abs($x) {
+	if($x > 0)
+		return $x;
+	else
+		return -$x;
+}
+
+#println("#min(4,2) = " + #min(4,2));
+#println("#max(4,2) = " + #max(4,2));
+#println("#abs(-8) = " + #abs(-8));
+#println("#fract(5.2) = " + #fract(5.2));
+#println("#ceil(5.2) = " + #ceil(5.2));
+#println("#floor(5.2) = " + #floor(5.2));
+
+// Let's Test Some Built-in Math Functions!
+#println("#sqrt(29) = " + #sqrt(29));
+#println("#cos(2) = " + #cos(2));
+#println("#asin(sin(1)) = " + #asin(#sin(1)));
+
+// Fibonacci function
+##fib($x) {
+	if($x <= 1)
+		return $x;
+	else
+		return #fib($x-1) + #fib($x-2);
+}
+
+// Factorial function
+##fact($x) {
+	if($x <= 1)
+		return 1;
+	else
+		return $x * #fact($x-1);
+}
+
+#println("#fib(" + $fibVar + ") = " + #fib($fibVar));
+#println("#fact(" + $factVar + ") = " + #fact($factVar));
+
+$n = 20;
+#println("The first " + $n + " numbers of the Fibonacci sequence are:");
+$i = 0;
+while($i < $n) {
+	#print(#fib($i) + " ");
+	$i += 1;
+}
+#println("");
+#println("");
+						</textarea>
+	<!--##SCR() {
+		$a = 5;
+		#println(3 + 5^2, $a^2, 2^$a, $a, 1 + #min(#max(1 + 1,3), 3^2) + 2, 22, ($a = 4), $a + 1, $a += 1, -$a, $a);
+		if(5 <= 25){
+			#println(5);
+		}
+		#return(2);
+	};
+	#println(#SCR());-->				
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<center><button onclick="runCode()">Run Code</button></center>
+							</td>
+						</tr>
+						<tr>
+							<td width=100% height=30%>
+								<div id="output">
+								</div>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</body>
+	
+	<script src="jquery-2.2.1.js"></script>
+	<script src="main.js"></script>
+</html>
